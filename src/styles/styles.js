@@ -13,9 +13,21 @@ const useStyles = (theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        border: 'solid black 2px',
+        //border: 'solid black 2px',
         borderRadius: theme.spacing(1),
         padding: theme.spacing(5),
+    },
+    board: {
+        marginTop: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        //border: 'solid black 2px',
+        borderRadius: theme.spacing(1),
+        padding: theme.spacing(1),
+        width: '100%',
+        maxWidth: '400px',
+        maxHeight: '400px',
     },
     avatar: {
         marginTop: theme.spacing(1),
@@ -47,12 +59,35 @@ const useStyles = (theme) => ({
         transform: 'scale(0.8)',
     },
     scorecard: {
-        minWidth: theme.spacing(30),
+        minWidth: '80%',
+        maxWidth: '80%',
         marginTop: theme.spacing(2),
     },
     players: {
         textAlign: 'center'
-    }
+    },
+    row: {
+        width: '100%',
+        textAlign: 'center',
+        minHeight: '60px',
+    },
+    block: {
+        width: '25%',
+        minWidth: '60px',
+        minHeight: '60px',
+        height: '0',
+        paddingBottom: '20%',
+        margin: '2.5%',
+        display: 'inline-flex',
+        border: 'solid black 2px',
+        borderRadius: theme.spacing(1),
+    },
+    xo: {
+        textAlign: 'center',
+        margin: 'auto',
+        paddingTop: '20%',
+        fontSize: '150%'
+    },
 });
 
 export default useStyles;

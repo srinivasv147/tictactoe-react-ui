@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Login from './Login';
+//import Login from './Login';
 import useStyles from '../styles/styles';
 import { withStyles } from '@material-ui/core/styles';
 import GameContainer from './GameContainer';
