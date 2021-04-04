@@ -5,15 +5,20 @@ import Avatar from '@material-ui/core/Avatar';
 class Header extends Component {
 
     render() {
+        let text;
         const { classes } = this.props;
+        if(this.props.showText) {
+            text = (<Typography component="h1" variant="h5" 
+                        className={classes.toptext}>
+                        {this.props.name}
+                    </Typography>);
+        }
         return(
-            <div>
+            <div className={classes.topicon}>
                 <Avatar className={classes.avatar}>
                     <img src={this.props.image} alt="logo" />
                 </Avatar>
-                <Typography component="h1" variant="h5">
-                    {this.props.name}
-                </Typography>
+                {text}
             </div>
         );
     }

@@ -15,7 +15,7 @@ const useStyles = (theme) => ({
         alignItems: 'center',
         //border: 'solid black 2px',
         borderRadius: theme.spacing(1),
-        padding: theme.spacing(5),
+        padding: theme.spacing(1),
     },
     board: {
         marginTop: theme.spacing(3),
@@ -91,6 +91,14 @@ const useStyles = (theme) => ({
     challenger: {
         marginTop: theme.spacing(2),
     },
+    topicon: {
+        display: 'inline-flex',
+        //border: 'solid black 2px',
+    },
+    toptext: {
+        marginLeft: theme.spacing(2),
+        marginTop: theme.spacing(1.5),
+    }
 });
 
 export default useStyles;

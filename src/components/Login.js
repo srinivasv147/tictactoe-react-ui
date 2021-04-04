@@ -73,6 +73,7 @@ class Login extends Component {
                     classes={classes}
                     image={tictactoeLogo}
                     name={"TicTacToe"}
+                    showText={true}
                 >
                 </Header>
                 <Typography variant="subtitle1">

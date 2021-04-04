@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Players from './Players';
 import Game from './Game';
 import Challenger from './Challenger';
+import TopBar from './TopBar';
 
 class GameContainer extends Component {
 
@@ -13,23 +14,21 @@ class GameContainer extends Component {
 
         const { classes } = this.props;
         return (
-            <Container component="main" maxWidth="md">
+            <div>
                 <CssBaseline />
-                <div className={classes.gamecontainer}>
-                    <Header
-                    classes={classes}
-                    image={tictactoeLogo}
-                    name={"TicTacToe"}
-                    ></Header>
-                    <Players classes={classes}
-                    player1={"player1"} player2={"player2"}>
-                    </Players>
-                    <Game 
-                    classes={classes}
-                    game={[1,-1,0,0,0,0,-1,1,0]}></Game>
-                    <Challenger classes={classes}></Challenger>
-                </div>
-            </Container>
+                <TopBar classes={classes}/>
+                <Container component="main" maxWidth="md">
+                    <div className={classes.gamecontainer}>
+                        <Players classes={classes}
+                        player1={"player1"} player2={"player2"}>
+                        </Players>
+                        <Game 
+                        classes={classes}
+                        game={[1,-1,0,0,0,0,-1,1,0]}></Game>
+                        <Challenger classes={classes}></Challenger>
+                    </div>
+                </Container>
+            </div>
         );
     }
 
