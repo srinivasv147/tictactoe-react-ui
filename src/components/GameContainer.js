@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Players from './Players';
 import Game from './Game';
+import Challenger from './Challenger';
 
 class GameContainer extends Component {
 
@@ -26,6 +27,7 @@ class GameContainer extends Component {
                     <Game 
                     classes={classes}
                     game={[1,-1,0,0,0,0,-1,1,0]}></Game>
+                    <Challenger classes={classes}></Challenger>
                 </div>
             </Container>
         );

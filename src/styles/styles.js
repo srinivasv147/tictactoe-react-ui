@@ -9,7 +9,7 @@ const useStyles = (theme) => ({
         padding: theme.spacing(2),
     },
     gamecontainer: {
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(1),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -87,6 +87,9 @@ const useStyles = (theme) => ({
         margin: 'auto',
         paddingTop: '20%',
         fontSize: '150%'
+    },
+    challenger: {
+        marginTop: theme.spacing(2),
     },
 });
 
