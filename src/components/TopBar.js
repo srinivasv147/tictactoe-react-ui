@@ -14,19 +14,22 @@ class TopBar extends Component {
         return(
             <AppBar position="static">
                 <Toolbar>
-                    <Header
-                    classes={classes}
-                    image={tictactoeLogo}
-                    name={"TicTacToe"}
-                    showText={false}
-                    ></Header>
                     <IconButton edge="start" 
                     className={classes.menuButton} 
                     color="inherit" 
                     aria-label="menu">
-                    <MenuIcon />
+                        <MenuIcon />
                     </IconButton>
-                    <Button color="inherit">Logout</Button>
+                    <div className={classes.toplogodiv}>
+                        <Header
+                        classes={classes}
+                        image={tictactoeLogo}
+                        name={"TicTacToe"}
+                        showText={false}
+                        ></Header>
+                    </div>
+                    <Button color="inherit" 
+                    className={classes.logout}>Logout</Button>
                 </Toolbar>
             </AppBar>
         );

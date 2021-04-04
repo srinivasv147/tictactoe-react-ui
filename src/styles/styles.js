@@ -1,3 +1,5 @@
+import { Autorenew } from "@material-ui/icons";
+
 const useStyles = (theme) => ({
     paper: {
         marginTop: theme.spacing(16),
@@ -98,7 +100,16 @@ const useStyles = (theme) => ({
     toptext: {
         marginLeft: theme.spacing(2),
         marginTop: theme.spacing(1.5),
-    }
+    },
+    menuButton: {
+        marginLeft: theme.spacing(1),
+    },
+    toplogodiv: {
+        margin: 'auto',
+    },
+    logout: {
+        marginRight: theme.spacing(1),
+    },
 });
 
 export default useStyles;
