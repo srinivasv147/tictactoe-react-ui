@@ -7,6 +7,7 @@ import Players from './Players';
 import Game from './Game';
 import Challenger from './Challenger';
 import TopBar from './TopBar';
+import ChallengeList from './ChallengeList'
 
 class GameContainer extends Component {
 
@@ -17,6 +18,7 @@ class GameContainer extends Component {
             <div>
                 <CssBaseline />
                 <TopBar classes={classes}/>
+                <ChallengeList />
                 <Container component="main" maxWidth="md">
                     <div className={classes.gamecontainer}>
                         <Players classes={classes}
