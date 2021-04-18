@@ -1,5 +1,3 @@
-import { Autorenew } from "@material-ui/icons";
-
 const useStyles = (theme) => ({
     paper: {
         marginTop: theme.spacing(16),
