@@ -5,20 +5,40 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
-import GoogleButton from 'react-google-button';
 import Typography from '@material-ui/core/Typography';
 import Header from './Header';
+import { GoogleLogin } from 'react-google-login';
 import tictactoeLogo from '../tictactoe.svg';
 
+const googleClientId="";
+
 class Login extends Component {
+
+    onGoogleResponse(){
+        return (response) => {
+            console.log("got response");
+            console.log(response);
+        }
+    }
+
+    onGoogleFailure(){
+        return (response) => {
+            console.log("got failure");
+            console.log(response);
+        }
+    }
 
     renderGoogleButton(classes) {
         return (
             <div>
-                <GoogleButton className={classes.google}
-                onClick={() => { 
-                    console.log('Google button clicked');
-                }} />
+                <div className={classes.google}>
+                    <GoogleLogin 
+                        clientId={googleClientId}
+                        buttonText="Sign in with Google"
+                        onSuccess={this.onGoogleResponse()}
+                        onFailure={this.onGoogleFailure()}
+                    />
+                </div>
                 <FormControlLabel className={classes.google}
                     control={<Checkbox value="remember" color="primary" />}
                     label="Remember me"

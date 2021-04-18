@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 
 class Main extends Component {
     render() {
+      console.log(this.props.user);
       const { classes } = this.props;
       return (
         <div>
