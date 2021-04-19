@@ -10,8 +10,6 @@ import Header from './Header';
 import { GoogleLogin } from 'react-google-login';
 import tictactoeLogo from '../tictactoe.svg';
 
-const googleClientId="";
-
 class Login extends Component {
 
     onGoogleResponse(){
@@ -33,7 +31,7 @@ class Login extends Component {
             <div>
                 <div className={classes.google}>
                     <GoogleLogin 
-                        clientId={googleClientId}
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                         buttonText="Sign in with Google"
                         onSuccess={this.onGoogleResponse()}
                         onFailure={this.onGoogleFailure()}
