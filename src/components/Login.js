@@ -8,7 +8,9 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Header from './Header';
 import { GoogleLogin } from 'react-google-login';
-import tictactoeLogo from '../tictactoe.svg';
+import tictactoeLogo from '../tictactoe.jpg';
+import LoginDTO  from '../dto/LoginDTO';
+import axios from 'axios';
 
 class Login extends Component {
 
@@ -16,6 +18,13 @@ class Login extends Component {
         return (response) => {
             console.log("got response");
             console.log(response);
+            axios.post(
+                'http://localhost:8080/api/authenticate',
+                new LoginDTO(response.getBasicProfile().getEmail(), 
+                response.tokenId)
+            ).then(res => {
+                console.log(res);
+            });
         }
     }
 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Header from './Header';
-import tictactoeLogo from '../tictactoe.svg';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Players from './Players';
