@@ -1,5 +1,7 @@
+import User from '../entity/user';
+
 const InitState = {
-    user : "guest"
+    user : new User('GUEST_USER', null, null)
 }
 
 export default InitState;

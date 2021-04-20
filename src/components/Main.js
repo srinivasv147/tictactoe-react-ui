@@ -17,7 +17,8 @@ class Main extends Component {
           <Route path="/login" render={() => (
             <Login pageType={"LOGIN"} 
             message="Sign in"
-            classes={classes}>
+            classes={classes}
+            {...this.props}>
           </Login>
           )}/>
           <Route path="/register" render={() => (

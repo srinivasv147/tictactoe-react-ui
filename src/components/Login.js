@@ -11,8 +11,31 @@ import { GoogleLogin } from 'react-google-login';
 import tictactoeLogo from '../tictactoe.jpg';
 import LoginDTO  from '../dto/LoginDTO';
 import axios from 'axios';
+import User from '../entity/user';
 
 class Login extends Component {
+
+    loginResponseHandler() {
+        return (response) => {
+            console.log(response);
+            let newUser = new User(null, null, null);
+            if(response.isValidEmail === false) {
+                newUser.userType = "GUEST_USER";
+            }
+            else if(response.jwt == null){
+                newUser.userType = "NEW_USER"
+            }
+            else{
+                newUser = new User("USER"
+                , response.userId, response.jwt);
+
+            }
+            //update user state.
+            this.props.modifyUser(newUser);
+            //redirect to relevant page.
+            console.log(this.props.user);
+        }
+    }
 
     onGoogleResponse(){
         return (response) => {
@@ -22,9 +45,7 @@ class Login extends Component {
                 'http://localhost:8080/api/authenticate',
                 new LoginDTO(response.getBasicProfile().getEmail(), 
                 response.tokenId)
-            ).then(res => {
-                console.log(res);
-            });
+            ).then(this.loginResponseHandler());
         }
     }
 
