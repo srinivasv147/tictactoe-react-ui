@@ -33,7 +33,10 @@ class Login extends Component {
             //update user state.
             this.props.modifyUser(newUser);
             //redirect to relevant page.
-            console.log(this.props.user);
+            if(this.props.user.userType === "NEW_USER") 
+                this.props.history.push("/register");
+            else if(this.props.user.userType === "USER")
+                this.props.hisotry.push("/");
         }
     }
 

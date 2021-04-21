@@ -14,11 +14,11 @@ class Main extends Component {
           <Route exact path="/" render={() => (
               <GameContainer classes={classes}></GameContainer>
           )}/>
-          <Route path="/login" render={() => (
+          <Route path="/login" render={(params) => (
             <Login pageType={"LOGIN"} 
             message="Sign in"
             classes={classes}
-            {...this.props}>
+            {...this.props}{...params}>
           </Login>
           )}/>
           <Route path="/register" render={() => (
