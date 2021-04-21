@@ -10,12 +10,22 @@ import Header from './Header';
 import { GoogleLogin } from 'react-google-login';
 import tictactoeLogo from '../tictactoe.jpg';
 import LoginDTO  from '../dto/LoginDTO';
+import CreateUserDTO from '../dto/CreateUserDTO';
 import axios from 'axios';
 import User from '../entity/user';
 
 class Login extends Component {
 
-    loginResponseHandler() {
+    constructor(props){
+        super(props);
+        this.state = {
+            curUserId : null
+        }
+        this.handleCreateUser = this.handleCreateUser.bind(this);
+        this.updateCurUserId = this.updateCurUserId.bind(this);
+    }
+
+    loginResponseHandler(email, gtoken) {
         return (response) => {
             console.log(response);
             let newUser = new User(null, null, null);
@@ -23,11 +33,13 @@ class Login extends Component {
                 newUser.userType = "GUEST_USER";
             }
             else if(response.jwt == null){
-                newUser.userType = "NEW_USER"
+                newUser.userType = "NEW_USER";
+                newUser.email = email;
+                newUser.gtoken = gtoken;
             }
             else{
                 newUser = new User("USER"
-                , response.userId, response.jwt);
+                , response.userId, response.jwt, email, gtoken);
 
             }
             //update user state.
@@ -36,7 +48,7 @@ class Login extends Component {
             if(this.props.user.userType === "NEW_USER") 
                 this.props.history.push("/register");
             else if(this.props.user.userType === "USER")
-                this.props.hisotry.push("/");
+                this.props.history.push("/");
         }
     }
 
@@ -48,7 +60,9 @@ class Login extends Component {
                 'http://localhost:8080/api/authenticate',
                 new LoginDTO(response.getBasicProfile().getEmail(), 
                 response.tokenId)
-            ).then(this.loginResponseHandler());
+            ).then(this.loginResponseHandler(
+                response.getBasicProfile().getEmail(), 
+                response.tokenId));
         }
     }
 
@@ -70,12 +84,17 @@ class Login extends Component {
                         onFailure={this.onGoogleFailure()}
                     />
                 </div>
+                {/* add jwt to local storage based on this option */}
                 <FormControlLabel className={classes.google}
                     control={<Checkbox value="remember" color="primary" />}
                     label="Remember me"
                 />
             </div>
         );
+    }
+
+    updateCurUserId(event){
+        this.setState({curUserId : event.target.value});
     }
 
     renderUserIdForm(classes) {
@@ -91,6 +110,7 @@ class Login extends Component {
                     name="userId"
                     autoComplete="User Id"
                     autoFocus
+                    onChange={this.updateCurUserId}
                 />
                 <Button
                     type="submit"
@@ -113,6 +133,22 @@ class Login extends Component {
             return this.renderUserIdForm(classes);
         }
     }
+
+    createUserResponseHandler(){
+        return ((response) => {
+            console.log(response);
+        });
+    }
+
+    handleCreateUser(event){
+        event.preventDefault();
+        console.log(this.state.curUserId);
+        let createUser = new CreateUserDTO(this.state.curUserId,
+            this.props.user.email, this.props.user.gtoken)
+        console.log(createUser);
+        axios.post('http://localhost:8080/api/create-user',
+            createUser).then(this.createUserResponseHandler());
+    }
     
     render() {
         const { classes } = this.props;
@@ -130,7 +166,9 @@ class Login extends Component {
                 <Typography variant="subtitle1">
                     {this.props.message}
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} 
+                onSubmit={this.handleCreateUser}
+                noValidate>
                     { 
                     this.renderProperContent(classes, this.props.pageType) 
                     }

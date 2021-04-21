@@ -21,10 +21,11 @@ class Main extends Component {
             {...this.props}{...params}>
           </Login>
           )}/>
-          <Route path="/register" render={() => (
+          <Route path="/register" render={(params) => (
             <Login pageType={"REGISTER"} 
             message={"enter unique display name to register"}
-            classes={classes}>
+            classes={classes}
+            {...this.props}{...params}>
             </Login>
           )}/>
         </div>
