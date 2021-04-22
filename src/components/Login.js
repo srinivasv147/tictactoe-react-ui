@@ -25,26 +25,28 @@ class Login extends Component {
         this.updateCurUserId = this.updateCurUserId.bind(this);
     }
 
-    loginResponseHandler(email, gtoken) {
+    responseHandler(email, gtoken) {
         return (response) => {
             console.log(response);
             let newUser = new User(null, null, null);
             if(response.isValidEmail === false) {
                 newUser.userType = "GUEST_USER";
             }
-            else if(response.jwt == null){
+            else if(response.data.jwt === null){
                 newUser.userType = "NEW_USER";
                 newUser.email = email;
                 newUser.gtoken = gtoken;
             }
             else{
                 newUser = new User("USER"
-                , response.userId, response.jwt, email, gtoken);
-
+                , response.data.userId, response.data.jwt
+                , email, gtoken);
             }
             //update user state.
             this.props.modifyUser(newUser);
             //redirect to relevant page.
+            if(this.props.userType === "GUEST_USER")
+                this.props.history.push("/login");
             if(this.props.user.userType === "NEW_USER") 
                 this.props.history.push("/register");
             else if(this.props.user.userType === "USER")
@@ -60,7 +62,7 @@ class Login extends Component {
                 'http://localhost:8080/api/authenticate',
                 new LoginDTO(response.getBasicProfile().getEmail(), 
                 response.tokenId)
-            ).then(this.loginResponseHandler(
+            ).then(this.responseHandler(
                 response.getBasicProfile().getEmail(), 
                 response.tokenId));
         }
@@ -134,12 +136,6 @@ class Login extends Component {
         }
     }
 
-    createUserResponseHandler(){
-        return ((response) => {
-            console.log(response);
-        });
-    }
-
     handleCreateUser(event){
         event.preventDefault();
         console.log(this.state.curUserId);
@@ -147,7 +143,8 @@ class Login extends Component {
             this.props.user.email, this.props.user.gtoken)
         console.log(createUser);
         axios.post('http://localhost:8080/api/create-user',
-            createUser).then(this.createUserResponseHandler());
+            createUser).then(this.responseHandler(
+                this.props.user.email, this.props.user.gtoken));
     }
     
     render() {
