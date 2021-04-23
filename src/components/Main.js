@@ -11,8 +11,10 @@ class Main extends Component {
       const { classes } = this.props;
       return (
         <div>
-          <Route exact path="/" render={() => (
-              <GameContainer classes={classes}></GameContainer>
+          <Route exact path="/" render={(params) => (
+              <GameContainer classes={classes}
+              {...this.props}>
+              </GameContainer>
           )}/>
           <Route path="/login" render={(params) => (
             <Login pageType={"LOGIN"} 

@@ -25,7 +25,7 @@ class GameContainer extends Component {
                         </Players>
                         <Game 
                         classes={classes}
-                        game={[1,-1,0,0,0,0,-1,1,0]}></Game>
+                        game={this.props.game}></Game>
                         <Challenger classes={classes}></Challenger>
                     </div>
                 </Container>
