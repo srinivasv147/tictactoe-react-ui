@@ -7,7 +7,7 @@ class ChallengeList extends Component {
     constructor(props){
         super(props);
         this.state={
-            isDrawerOpened: true,
+            isDrawerOpened: false,
         };
     }
     openDrawer = () => {
