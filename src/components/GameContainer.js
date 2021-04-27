@@ -21,6 +21,7 @@ class GameContainer extends Component {
         this.sendChallenge = this.sendChallenge.bind(this);
         this.openChalDrawer = this.openChalDrawer.bind(this);
         this.closeChalDrawer = this.closeChalDrawer.bind(this);
+        this.handleWsMessage = this.handleWsMessage.bind(this);
     }
 
     modifyState(key, val){
@@ -61,6 +62,15 @@ class GameContainer extends Component {
         }
     }
 
+    handleWsMessage(msg){
+        if(msg.hasOwnProperty('challengee') 
+        && msg.hasOwnProperty('challenger')){
+            //this ensures that we have a challenge
+            console.log(msg);
+            this.chalComp.addChallenge(msg.challenger);
+        }
+    }
+
     render() {
         const { classes } = this.props;
         //convert this into a spinning loading icon to make it look good.
@@ -71,14 +81,15 @@ class GameContainer extends Component {
                 url={'http://localhost:8080/api/websok?token='
                 +this.state.wsToken}
                 topics={['/user/queue/challenge','/user/queue/game']}
-                onMessage={(msg) => { console.log(msg); }}
+                onMessage={(msg) => { this.handleWsMessage(msg); }}
                 ref={ (client) => { this.wsSender = client }} />
                 <CssBaseline />
                 <TopBar classes={classes}
                 openDrawer={this.openChalDrawer()}/>
                 <ChallengeList 
                 isDrawerOpened={this.state.chalDrawerOpened}
-                closeDrawer={this.closeChalDrawer()}/>
+                closeDrawer={this.closeChalDrawer()}
+                ref={(component) => { this.chalComp = component } }/>
                 <Container component="main" maxWidth="md">
                     <div className={classes.gamecontainer}>
                         <Players classes={classes}
