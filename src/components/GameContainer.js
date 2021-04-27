@@ -16,8 +16,17 @@ class GameContainer extends Component {
         super(props);
         this.state = {
             wsToken: null,
+            chalDrawerOpened: false,
         }
         this.sendChallenge = this.sendChallenge.bind(this);
+        this.openChalDrawer = this.openChalDrawer.bind(this);
+        this.closeChalDrawer = this.closeChalDrawer.bind(this);
+    }
+
+    modifyState(key, val){
+        let newState = JSON.parse(JSON.stringify(this.state));
+        newState[key] = val;
+        this.setState(newState);
     }
 
     componentDidMount(){
@@ -29,9 +38,7 @@ class GameContainer extends Component {
         }
         ).then((response) => {
             console.log(response.data.jwt);
-            this.setState({
-                wsToken: response.data.jwt,
-            });
+            this.modifyState("wsToken",response.data.jwt);
         });
     }
 
@@ -39,6 +46,18 @@ class GameContainer extends Component {
         return (msg) => {
             console.log(msg);
             this.wsSender.sendMessage('/app/challenge', msg);
+        }
+    }
+
+    openChalDrawer(){
+        return ()=>{
+            this.modifyState("chalDrawerOpened", true);
+        }
+    }
+
+    closeChalDrawer(){
+        return ()=> {
+            this.modifyState("chalDrawerOpened", false);
         }
     }
 
@@ -55,8 +74,11 @@ class GameContainer extends Component {
                 onMessage={(msg) => { console.log(msg); }}
                 ref={ (client) => { this.wsSender = client }} />
                 <CssBaseline />
-                <TopBar classes={classes}/>
-                <ChallengeList />
+                <TopBar classes={classes}
+                openDrawer={this.openChalDrawer()}/>
+                <ChallengeList 
+                isDrawerOpened={this.state.chalDrawerOpened}
+                closeDrawer={this.closeChalDrawer()}/>
                 <Container component="main" maxWidth="md">
                     <div className={classes.gamecontainer}>
                         <Players classes={classes}

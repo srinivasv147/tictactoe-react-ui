@@ -17,7 +17,8 @@ class TopBar extends Component {
                     <IconButton edge="start" 
                     className={classes.menuButton} 
                     color="inherit" 
-                    aria-label="menu">
+                    aria-label="menu"
+                    onClick={this.props.openDrawer}>
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.toplogodiv}>

@@ -27,12 +27,6 @@ class Challenger extends Component {
                     , this.state.challengeUserId
                     , this.props.user.userId
                     , true)));
-        // this.props.sender.sendMessage('/app/challenge', 
-        // JSON.stringify(
-        //     new ChallengeDTO(null
-        //         , this.state.challengeUserId
-        //         , this.props.user.userId
-        //         , true)));
     }
     
     render() {

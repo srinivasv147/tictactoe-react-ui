@@ -6,22 +6,14 @@ class ChallengeList extends Component {
 
     constructor(props){
         super(props);
-        this.state={
-            isDrawerOpened: false,
-        };
     }
-    openDrawer = () => {
-        this.setState({isDrawerOpened: true,});
-    }
-    closeDrawer = () => {
-        this.setState({isDrawerOpened: false,});
-    }
+    
     render() {
         return (
             <Drawer
             variant="temporary"
-            open={this.state.isDrawerOpened}
-            onClose={this.closeDrawer}
+            open={this.props.isDrawerOpened}
+            onClose={this.props.closeDrawer}
             >
                 <List>
                     {['player1', 'player2'].map((text, index) => (
