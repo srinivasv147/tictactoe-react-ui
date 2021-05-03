@@ -9,20 +9,26 @@ import TopBar from './TopBar';
 import ChallengeList from './ChallengeList';
 import axios from 'axios';
 import SockJsClient from 'react-stomp';
+import TwoPGameDTO from '../dto/TwoPGameDTO';
+import GameStateDTO from '../dto/GameStateDTO';
 
 class GameContainer extends Component {
 
     constructor(props){
         super(props);
+        let gameState = new GameStateDTO(true
+            , false, [0,0,0,0,0,0,0,0,0], "UNDECIDED")
         this.state = {
             wsToken: null,
             chalDrawerOpened: false,
+            game: new TwoPGameDTO(null, null, null, gameState, null),
         }
         this.sendChallenge = this.sendChallenge.bind(this);
         this.openChalDrawer = this.openChalDrawer.bind(this);
         this.closeChalDrawer = this.closeChalDrawer.bind(this);
         this.handleWsMessage = this.handleWsMessage.bind(this);
         this.acceptChallenge = this.acceptChallenge.bind(this);
+        this.sendNewMove = this.sendNewMove.bind(this);
     }
 
     modifyState(key, val){
@@ -48,6 +54,32 @@ class GameContainer extends Component {
         return (msg) => {
             console.log(msg);
             this.wsSender.sendMessage('/app/challenge', msg);
+        }
+    }
+
+    sendNewMove(){ // this function needs to be made better
+        return (index) => {
+            let newGame = JSON.parse(
+                JSON.stringify(this.state.game));
+            if(this.state.game.nextMoveX !== null &&
+                (this.props.user.userId === this.state.game.xUser 
+                && this.state.game.nextMoveX )) {
+                    newGame.gameState.gameState[index] = 1;
+                    newGame.nextMoveX = false;
+                    this.modifyState("game", newGame);
+                    this.wsSender.sendMessage('/app/game-move'
+                    , JSON.stringify(newGame));
+                } 
+            else if(this.state.game.nextMoveX !== null &&
+                (this.props.user.userId === this.state.game.oUser 
+                    && !this.state.game.nextMoveX)){
+                    newGame.gameState.gameState[index] = -1;
+                    newGame.nextMoveX = true;
+                    this.modifyState("game", newGame);
+                    this.wsSender.sendMessage('/app/game-move',
+                    JSON.stringify(newGame));
+            }
+
         }
     }
 
@@ -77,6 +109,12 @@ class GameContainer extends Component {
             console.log(msg);
             this.chalComp.addChallenge(msg);
         }
+        else if(msg.hasOwnProperty('xUser')
+        && msg.hasOwnProperty('oUser')){
+            //this ensures that we have a game
+            console.log(msg);
+            this.modifyState("game", msg);
+        }
         else{
             console.log(msg);
         }
@@ -105,11 +143,14 @@ class GameContainer extends Component {
                 <Container component="main" maxWidth="md">
                     <div className={classes.gamecontainer}>
                         <Players classes={classes}
-                        player1={"player1"} player2={"player2"}>
+                        player1={this.state.game.xUser} 
+                        player2={this.state.game.oUser}>
                         </Players>
                         <Game 
+                        sendMove = {this.sendNewMove()}
                         classes={classes}
-                        game={this.props.game}></Game>
+                        game={this.state.game.gameState.gameState}>
+                        </Game>
                         <Challenger sender={this.sendChallenge()} 
                         classes={classes} 
                         { ...this.props }/>
