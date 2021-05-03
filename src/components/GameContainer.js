@@ -22,6 +22,7 @@ class GameContainer extends Component {
         this.openChalDrawer = this.openChalDrawer.bind(this);
         this.closeChalDrawer = this.closeChalDrawer.bind(this);
         this.handleWsMessage = this.handleWsMessage.bind(this);
+        this.acceptChallenge = this.acceptChallenge.bind(this);
     }
 
     modifyState(key, val){
@@ -50,6 +51,13 @@ class GameContainer extends Component {
         }
     }
 
+    acceptChallenge(){
+        return (msg) => {
+            console.log(msg);
+            this.wsSender.sendMessage('/app/accept-challenge', msg);
+        }
+    }
+
     openChalDrawer(){
         return ()=>{
             this.modifyState("chalDrawerOpened", true);
@@ -67,7 +75,10 @@ class GameContainer extends Component {
         && msg.hasOwnProperty('challenger')){
             //this ensures that we have a challenge
             console.log(msg);
-            this.chalComp.addChallenge(msg.challenger);
+            this.chalComp.addChallenge(msg);
+        }
+        else{
+            console.log(msg);
         }
     }
 
@@ -89,7 +100,8 @@ class GameContainer extends Component {
                 <ChallengeList 
                 isDrawerOpened={this.state.chalDrawerOpened}
                 closeDrawer={this.closeChalDrawer()}
-                ref={(component) => { this.chalComp = component } }/>
+                ref={(component) => { this.chalComp = component } }
+                chalAcceptor={this.acceptChallenge()}/>
                 <Container component="main" maxWidth="md">
                     <div className={classes.gamecontainer}>
                         <Players classes={classes}
